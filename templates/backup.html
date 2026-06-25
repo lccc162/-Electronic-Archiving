@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}النسخ الاحتياطي - برنامج الأرشفة المركزية{% endblock %}
+
+{% block content %}
+    <div class="page-card">
+        <div class="card-header">
+            <span>إدارة النسخ الاحتياطي للبيانات</span>
+            <i class="fas fa-database"></i>
+        </div>
+        <div class="card-body" style="text-align: center; padding: 40px;">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div style="font-size: 4rem; color: #6366f1; margin-bottom: 20px;">
+                    <i class="fas fa-file-archive"></i>
+                </div>
+                <h2 style="color: #1e293b; margin-bottom: 15px;">تصدير نسخة احتياطية كاملة</h2>
+                <p style="color: #64748b; margin-bottom: 30px; line-height: 1.6;">
+                    سيقوم النظام بجمع كافة المرفقات المؤرشفة (uploads) بالإضافة إلى ملفات قاعدة البيانات المحلية في ملف مضغوط واحد (ZIP) لتتمكن من حفظها في مكان آمن.
+                </p>
+                
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; margin-bottom: 30px; text-align: right;">
+                    <h4 style="color: #475569; margin-bottom: 10px;"><i class="fas fa-info-circle"></i> ملاحظات هامة:</h4>
+                    <ul style="color: #64748b; font-size: 0.9rem;">
+                        <li>يستغرق وقت إنشاء النسخة حسب حجم الملفات المؤرشفة.</li>
+                        <li>يُنصح بإجراء النسخ الاحتياطي بشكل دوري (أسبوعياً أو شهرياً).</li>
+                        <li>هذه العملية لا تشمل قاعدة بيانات SQL Server إذا كانت تعمل عن بُعد.</li>
+                    </ul>
+                </div>
+
+                <a href="{{ url_for('download_backup') }}" class="btn btn-primary" style="padding: 12px 30px; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-download"></i> إنشاء وتحميل النسخة الآن
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

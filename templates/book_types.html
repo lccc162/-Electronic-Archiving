@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}أنواع الكتب - برنامج الأرشفة المركزية{% endblock %}
+
+{% block extra_css %}
+<style>
+    .split-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+    }
+    .add-section {
+        background: white;
+        padding: 20px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        height: fit-content;
+    }
+    .add-section .form-group {
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="page-card">
+        <div class="card-header">
+            <span>أنواع الكتب</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="card-body" style="background-color: white;">
+            <div class="split-layout">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>المعرف</th>
+                                <th>نوع الكتاب</th>
+                                <th>الاجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for type in types %}
+                            <tr>
+                                <td>{{ type.id }}</td>
+                                <td>{{ type.name }}</td>
+                                <td>
+                                    <a href="{{ url_for('edit_type', id=type.id) }}" class="btn btn-info">تعديل</a>
+                                    <a href="{{ url_for('delete_type', id=type.id) }}" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من حذف هذا النوع؟')">حذف</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="add-section">
+                    <form method="POST">
+                        <div class="form-group">
+                            <label>نوع الكتاب :</label>
+                            <input type="text" name="type_name" placeholder="أدخل نوع الكتاب الجديد" required>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="width: 100%;">اضافة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

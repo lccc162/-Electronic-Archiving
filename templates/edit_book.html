@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}تعديل الكتاب - برنامج الأرشفة المركزية{% endblock %}
+
+{% block content %}
+    <div class="page-card">
+        <div class="card-header">
+            <span>تعديل الكتاب رقم: {{ book.book_number }}</span>
+            <a href="{{ url_for('view_book', id=book.id) }}" style="color: white; text-decoration: none;"><i class="fas fa-arrow-left"></i> رجوع</a>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>نوع الكتاب :</label>
+                        <select name="book_type" required>
+                            {% for type in types %}
+                            <option value="{{ type.name }}" {% if book.book_type == type.name %}selected{% endif %}>{{ type.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الكتاب:</label>
+                        <input type="text" name="book_number" value="{{ book.book_number }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>تاريخ الكتاب :</label>
+                        <input type="date" name="book_date" value="{{ book.book_date }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الجهة المصدرة للكتاب:</label>
+                        <select name="source" required>
+                            {% for dept in departments %}
+                            <option value="{{ dept.name }}" {% if book.source == dept.name %}selected{% endif %}>{{ dept.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المرسل الى:</label>
+                        <select name="receiver" required>
+                            {% for dept in departments %}
+                            <option value="{{ dept.name }}" {% if book.receiver == dept.name %}selected{% endif %}>{{ dept.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>عنوان الكتاب :</label>
+                        <input type="text" name="title" value="{{ book.title }}" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label>محتوى الكتاب والمرفقات:</label>
+                        <textarea rows="6" name="content">{{ book.content }}</textarea>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label>كلمات دليلية:</label>
+                        <textarea rows="2" name="keywords">{{ book.keywords }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>رقم الفايل:</label>
+                        <input type="text" name="file_number" value="{{ book.file_number }}">
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الخزن:</label>
+                        <input type="text" name="storage_number" value="{{ book.storage_number }}">
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #f59e0b;"><i class="fas fa-calendar-check"></i> تاريخ المتابعة:</label>
+                        <input type="date" name="follow_up_date" value="{{ book.follow_up_date }}">
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: left;">
+                    <button type="submit" class="btn btn-primary">تحديث بيانات الكتاب</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

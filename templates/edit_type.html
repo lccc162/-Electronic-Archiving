@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}تعديل النوع - برنامج الأرشفة المركزية{% endblock %}
+
+{% block content %}
+    <div class="page-card">
+        <div class="card-header">
+            <span>تعديل نوع الكتاب: {{ type.name }}</span>
+            <a href="{{ url_for('book_types') }}" style="color: white; text-decoration: none;"><i class="fas fa-arrow-left"></i> رجوع</a>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="form-group">
+                    <label>اسم النوع :</label>
+                    <input type="text" name="name" value="{{ type.name }}" required>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

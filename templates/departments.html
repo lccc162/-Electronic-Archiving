@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}إدارة الأقسام - برنامج الأرشفة المركزية{% endblock %}
+
+{% block extra_css %}
+<style>
+    .split-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+    }
+    .add-section {
+        background: white;
+        padding: 20px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        height: fit-content;
+    }
+    .add-section .form-group {
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="page-card">
+        <div class="card-header">
+            <span>إدارة الأقسام والجهات</span>
+            <i class="fas fa-building"></i>
+        </div>
+        <div class="card-body" style="background-color: white;">
+            <div class="split-layout">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>المعرف</th>
+                                <th>اسم القسم / الجهة</th>
+                                <th>رقم القسم</th>
+                                <th>الاجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dept in departments %}
+                            <tr>
+                                <td>{{ dept.id }}</td>
+                                <td>{{ dept.name }}</td>
+                                <td>{{ dept.dept_number or '---' }}</td>
+                                <td>
+                                    <a href="{{ url_for('edit_dept', id=dept.id) }}" class="btn btn-info">تعديل</a>
+                                    <a href="{{ url_for('delete_dept', id=dept.id) }}" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من حذف هذا القسم؟')">حذف</a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4">لا توجد أقسام مسجلة حالياً</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="add-section">
+                    <form method="POST">
+                        <div class="form-group">
+                            <label>اسم القسم / الجهة الجديدة :</label>
+                            <input type="text" name="dept_name" placeholder="مثلاً: شعبة الحسابات" required>
+                        </div>
+                        <div class="form-group">
+                            <label>رقم القسم :</label>
+                            <input type="text" name="dept_number" placeholder="مثلاً: 101">
+                        </div>
+                        <button type="submit" class="btn btn-success" style="width: 100%;">إضافة القسم</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

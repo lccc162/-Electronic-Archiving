@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}نتائج البحث - برنامج الأرشفة المركزية{% endblock %}
+
+{% block content %}
+    <div class="page-card">
+        <div class="card-header">
+            <span>نتائج البحث عن: {{ query }}</span>
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="card-body" style="background-color: white;">
+            {% if results %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>رقم الكتاب</th>
+                            <th>العنوان</th>
+                            <th>الجهة</th>
+                            <th>التاريخ</th>
+                            <th>النوع</th>
+                            <th>الاجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in results %}
+                        <tr>
+                            <td>{{ book.book_number }}</td>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.source }}</td>
+                            <td>{{ book.book_date }}</td>
+                            <td><span class="badge badge-success">{{ book.book_type }}</span></td>
+                            <td>
+                                <button class="btn btn-info btn-sm">عرض</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div style="text-align: center; padding: 40px;">
+                <i class="fas fa-search-minus" style="font-size: 3rem; color: #ccc; margin-bottom: 15px;"></i>
+                <p>لم يتم العثور على نتائج تطابق بحثك.</p>
+                <a href="{{ url_for('index') }}" class="btn btn-primary mt-10">العودة للرئيسية</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

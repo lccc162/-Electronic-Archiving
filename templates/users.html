@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block title %}إدارة المستخدمين - برنامج الأرشفة المركزية{% endblock %}
+
+{% block extra_css %}
+<style>
+    .table-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        background: white;
+        padding: 10px;
+        border-radius: 4px;
+    }
+    .export-btns {
+        display: flex;
+        gap: 5px;
+    }
+    .export-btns .btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        border: 1px solid #ddd;
+        background: #fff;
+    }
+    .search-box input {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin-top: 20px;
+    }
+    .pagination span {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        background: white;
+    }
+    .pagination span.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="page-card">
+        <div class="card-header">
+            <span>إدارة المستخدمين</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="card-body" style="background-color: white;">
+            <div class="table-controls">
+                <div class="export-btns">
+                    <a href="{{ url_for('add_user_page') }}" class="btn btn-primary" style="text-decoration: none; display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-user-plus"></i> إضافة مستخدم جديد
+                    </a>
+                    <button class="btn" onclick="window.print()">طباعة</button>
+                    <button class="btn" onclick="showToast('جاري التصدير...')">تصدير ملف CVS</button>
+                    <button class="btn" onclick="showToast('جاري التصدير...')">تصدير ملف اكسل</button>
+                    <button class="btn" onclick="copyTableToClipboard()">نسخ الى الحافظة</button>
+                </div>
+                <div class="search-box">
+                    <label>بحث: </label>
+                    <input type="text" id="userSearch" onkeyup="filterTable('userSearch', 'table-container')">
+                </div>
+                <div class="entries-info">
+                    عرض <select><option>10</option></select> سجل
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المعرف</th>
+                            <th>الاسم الكامل</th>
+                            <th>اسم المستخدم</th>
+                            <th>الصلاحية</th>
+                            <th>القسم</th>
+                            <th>الاجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.full_name }}</td>
+                            <td>{{ user.username }}</td>
+                            <td><span class="badge {% if user.role == 'مدير البرنامج' %}badge-success{% else %}badge-warning{% endif %}">{{ user.role }}</span></td>
+                            <td>{{ user.department }}</td>
+                            <td>
+                                <a href="#" class="btn btn-success">تفصيل</a>
+                                <a href="{{ url_for('toggle_user', id=user.id) }}" class="btn btn-danger">تعطيل</a>
+                                <a href="{{ url_for('edit_user', id=user.id) }}" class="btn btn-info">تعديل</a>
+                                <a href="{{ url_for('delete_user', id=user.id) }}" class="btn btn-info" style="background-color: #c62828;" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
